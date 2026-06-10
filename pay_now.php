@@ -32,6 +32,17 @@ if(!(isset($_SESSION['login'])&& $_SESSION['login']==true)){
    
    insert($query2,[$booking_id,$_SESSION['room']['name'],$_SESSION['room']['price'],$TXT_AMOUNT,$frm_data['name'],$frm_data['phonenum'],$frm_data['address']],'issssss');
 
+   $trans_id='BYPASS_'.$ORDER_ID;
+   $trans_status='Success';
+
+   $query3="UPDATE `booking_order` SET `booking_status`=?, `trans_id`=?, `trans_amt`=?, `trans_status`=? WHERE `booking_id`=?";
+
+   update($query3,['booked',$trans_id,$TXT_AMOUNT,$trans_status,$booking_id],'ssisi');
+
+   unset($_SESSION['room']);
+
+   redirect('pay_status.php?order='.$ORDER_ID);
+   exit;
 
 
   }
